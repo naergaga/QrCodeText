@@ -38,14 +38,17 @@ namespace QrCodeText
                 string path = dialog.FileName;
                 this.Image1.Source = new BitmapImage(new Uri(path));
 
-                var bar = new BarcodeReader();
+                var bar = new BarcodeReader() { AutoRotate = true, TryInverted = true };
                 bar.Options = new DecodingOptions
                 {
                     PossibleFormats = new List<BarcodeFormat> { BarcodeFormat.QR_CODE }
                 };
                 var bitmap = (Bitmap)Bitmap.FromFile(path);
                 var result = bar.Decode(bitmap);
-                this.Text1.Text = result.Text;
+                if (result != null)
+                {
+                    this.Text1.Text = result.Text;
+                }
             }
 
         }
